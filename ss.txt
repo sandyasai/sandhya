@@ -1,0 +1,41 @@
+import java.io.*;
+
+public class CopyFile {
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            System.out.println("Usage: java CopyFile sourceFile targetFile");
+            return;
+        }
+
+        String sourceFile = args[0];
+        String targetFile = args[1];
+
+        int charCount = 0;
+        int wordCount = 0;
+        int lineCount = 0;
+
+        try (
+            BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))
+        ) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lineCount++;
+                charCount += line.length(); // counts characters in line
+                wordCount += line.split("\\s+").length;
+
+                writer.write(line);
+                writer.newLine();
+            }
+
+            System.out.println("1 file copied");
+            System.out.println("This file has:");
+            System.out.println(charCount + " characters");
+            System.out.println(wordCount + " words");
+            System.out.println(lineCount + " lines");
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
